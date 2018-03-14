@@ -1,0 +1,21 @@
+{
+  "name": "wiiloader",
+  "version": "1.0.1",
+  "description": "平台组前端静态资源加载模块",
+  "main": "/dist/wiiloader.js",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "keywords": [
+    "wiiloader"
+  ],
+  "author": "erikqin",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.2.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^3.0.0"
+  }
+}
