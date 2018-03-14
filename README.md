@@ -1,5 +1,7 @@
 # wiiloader
-- 平台组前端js模块加载器
+[![release](https://img.shields.io/badge/release-v1.0.1-orange.svg)](https://github.com/qinmudi/wii-loader)
+
+平台组前端js模块加载器
 
 ## 特点
 - 支持队列按顺序加载
