@@ -15,8 +15,14 @@ export default ((window) => {
 	})()
 
 	let loaders = {}
+	let cacheMap = {}
 
 	let promiseLoad = (item, increment) => {
+		if(cacheMap[item]){
+			return false;
+		}else{
+			cacheMap[item] = 1;
+		}
 		let promise = new Promise((resolve, reject) => {
 			if (item instanceof Promise) {
 				reject(`item ${item} must be a promise`)
@@ -162,7 +168,7 @@ export default ((window) => {
 	})
 
 	window.addEventListener('unhandledrejection', function(event) {
-		console.warn(event.type, event.reason)
+		console.error(event.type, event.reason)
 		event.preventDefault()
 	}, true)
 

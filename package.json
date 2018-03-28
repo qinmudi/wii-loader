@@ -1,6 +1,6 @@
 {
   "name": "wiiloader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "平台组前端静态资源加载模块",
   "main": "/dist/wiiloader.js",
   "scripts": {
