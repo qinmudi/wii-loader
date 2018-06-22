@@ -3,7 +3,7 @@
  * @since	2017-03-13
  * @author	erikqin
  * @update 	2018-05-09	兼容SSR编译
- */
+ */ 
 export default ((context) => {
 	const setImmediate = context.setImmediate ? context.setImmediate : (() => {
 		if (typeof process === 'object' && typeof process.nextTick === 'function') {
