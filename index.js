@@ -2,9 +2,10 @@
  * 平台组前端静态资源加载模块
  * @since	2017-03-13
  * @author	erikqin
+ * @update 	2018-05-09	兼容SSR编译
  */
-export default ((window) => {
-	const setImmediate = window.setImmediate ? window.setImmediate : (() => {
+export default ((context) => {
+	const setImmediate = context.setImmediate ? context.setImmediate : (() => {
 		if (typeof process === 'object' && typeof process.nextTick === 'function') {
 			return process.nextTick
 		} else {
@@ -18,11 +19,7 @@ export default ((window) => {
 	let cacheMap = {}
 
 	let promiseLoad = (item, increment) => {
-		if(cacheMap[item]){
-			return false;
-		}else{
-			cacheMap[item] = 1;
-		}
+		// cacheMap[item] = 1
 		let promise = new Promise((resolve, reject) => {
 			if (item instanceof Promise) {
 				reject(`item ${item} must be a promise`)
@@ -41,18 +38,20 @@ export default ((window) => {
 						loader.call(this, resolve, reject, item)
 					})
 				} else {
-					let element = document.createElement(loader.tag || _loaderDefaults.tag),
+					if(!cacheMap[item]){
+						let element = context.document.createElement(loader.tag || _loaderDefaults.tag),
 						parent = loader.parent || _loaderDefaults.parent,
 						attr = loader.attr || _loaderDefaults.attr;
-					element.onload = function() {
-						resolve(item);
-					};
-					element.onerror = function() {
-						reject('Error while loading ' + item);
-					};
-					loader.config(element);
-					element[attr] = item;
-					document[parent].appendChild(element);
+						element.onload = function() {
+							resolve(item);
+						};
+						element.onerror = function() {
+							reject('Error while loading ' + item);
+						};
+						loader.config(element);
+						element[attr] = item;
+						context.document[parent].appendChild(element);
+					}
 				}
 			}
 		})
@@ -167,17 +166,14 @@ export default ((window) => {
 		}
 	})
 
-	window.addEventListener('unhandledrejection', function(event) {
-		console.error(event.type, event.reason)
-		event.preventDefault()
-	}, true)
-
-	window.WiiLoader = {}
-	window.WiiLoader.load = load
-	window.WiiLoader.loadOne = promiseLoad
-	window.WiiLoader.loadMany = promiseAsyncLoad
-	window.WiiLoader.addLoader = addLoader
-	window.WiiLoader.loaders = loaders
+	context.WiiLoader = {}
+	context.WiiLoader.load = load
+	context.WiiLoader.loadOne = promiseLoad
+	context.WiiLoader.loadMany = promiseAsyncLoad
+	context.WiiLoader.addLoader = addLoader
+	context.WiiLoader.loaders = loaders
 
 	return WiiLoader
-})(window)
+})(typeof window !== "undefined" ? window: function(){
+	return global;
+});
