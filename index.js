@@ -127,7 +127,7 @@ export default ((context) => {
 	}
 
 	addLoader({
-		ext: 'js',
+		ext: 'js,json',
 		tag: 'script',
 		parent: 'body',
 		attr: 'src',
